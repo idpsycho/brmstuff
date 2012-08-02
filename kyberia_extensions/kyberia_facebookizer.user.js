@@ -261,6 +261,7 @@ function convertToFB()
 	.qq.node_header_k				{ color: #6B84B4; float: none; text-transform: none; font-weight: normal; }\
 	.qq.node_header_title_nodename	{ color: #999; margin-top: 10px; display: block; float: none; font-size: 11px; }\
 	.qq.node_login					{ color: #3B5998; font-weight: bold; padding: 0; padding-right: 5px; }\
+	.qq.node_body					{ padding-left: 60px; }\
 	\
 	/* ----------------------------------       facebook        ---------------------------------- */ \
 	.t2						{ height: 35px; background: #d3d3d3; }\
