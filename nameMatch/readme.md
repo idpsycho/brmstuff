@@ -1,5 +1,5 @@
 # name matching algorithm
-try on [p.brm.sk/namematch]
+try on [p.brm.sk/namematch]http://p.brm.sk/namematch
 
 ## this is how it tests matching
 when matching "František „SNiPI“ Čaník" (frantisek snipi canik)
