@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name           Kyberia Flattery
+// @name           Kyberia Facebookizer
 // @include        http://kyberia.sk*
 // @include        https://kyberia.sk*
 // @match          http://kyberia.sk/*
