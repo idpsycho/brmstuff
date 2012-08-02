@@ -1,0 +1,287 @@
+<!doctype html>
+<html><head>
+<script src="jquery.js"></script>
+<!-- <link rel="stylesheet" href="style.css"> -->
+<style>
+	html, body { height: 100%; margin: 0; padding: 0; }
+	html { font-family: helvetica; font-size: 12px; }
+	#left { float: left; width: 280px; margin: 10px; padding: 10px 10px; background: #eef; border: 1px solid #bbf; border-radius: 2px; overflow: hidden; }
+
+	#words { clear: both; margin: 0px; padding: 5px; }
+
+	#inp { width: 70%; border: 1px solid #aaf; padding: 5px 2px; border-radius: 2px; float: left; margin: 0; }
+	#add { padding: 5px 10px; background: #ddf; border: 1px solid #aae; float: left; border-radius: 2px; margin-left: 5px; }
+	#add:hover { background: #ccf; cursor: pointer; }
+	
+	.data { float: right; }
+	.data:hover { color: #55f; cursor: pointer; }
+	.import:hover { color: #55f; cursor: pointer; }
+
+	#words .main { display: inline-block; width: 120px; }
+	.info { font-size: 10px; color: #bbf; padding: 10px 0 0 0px; }
+	
+	#data { height: 100%; display: none; }
+	#data textarea { margin: 10px; width: 400px; min-height: 50%; font-size: 12px; pre-wrap: white-space; }
+	
+</style>
+<script>
+
+var sample_words = '["a - to","o - alebo","y - and","en - in","de - of","se - sa","con - with","aceptan - accept","gran, grande - grand","mueble - nabytok","amueblado - zariadeny","martimonial - manzelska","pintado - painted","seguridad - securited","recien - recent","temporadas - temporary","todas - vsetky","mas - viac","parque - park","playa - plaz","cama - bed","cocina - kuchyna","nevera - chladnicka","lavadora - umyvacka","bano - kupelna","suelo - podlaha","menaje - vybavenie","edificio - budova","ascensor - vytah","mes - mesiac","meses - mesiacov","sentimos - sorry","actualmente - aktualne","disponemos - disponovat","inmuebles - nehnutelnost","estos - tieto","busqueda - vyhladavanie","menor - mensi","mayor - vacsi","piso - byt","dos - dva","dormitories - spalne","salon - obyvacka","azotea, solana - terasa","cuarto - miestnost","tranquilo - pokojne","muy - velmi","amplio - priestranne","habitaciones - izba","agua - voda","termo - tepelne","hacia - do","calle - ulica","tender - smerovat","consta - consists","comunidad - komunita","pocos - malo","vecinos - susedia","por - za","planta - poschodie","precio - cena","incluye - includes","suerte - stastie"]';
+
+
+function toggleData()
+{
+	$('#data').toggle();
+
+	if ( !$('#data').is(":visible") )
+		return;
+
+	var data = '';
+	for (var i=0; i < words.length; i++)
+		data += words[i]+"\n";
+
+	$('#data textarea').val(data);
+}
+function importData()
+{
+	var t = $('#data textarea').val();
+
+	var	invalid = "";
+	words = [];
+
+	var arr = t.split('\n');
+	for (var i=0; i < arr.length; i++)
+	{
+		var a = arr[i];
+		if ( !$.trim(a).length )
+			continue;
+
+		if (!checkValidFormat(a))
+		{
+			invalid += "  "+a+"\n";
+			continue;
+		}
+
+		words.push(a);
+	}
+	if (invalid.length)
+	{
+		invalid = "these are invalid:\n" + invalid;
+		alert( invalid );
+	}
+	else
+	{
+		$('#data textarea').val('EVERYTHING IS OK\n...have fun')
+		$('#data').fadeOut(2000);
+	}
+
+	saveWords();
+}
+
+// DEFINED
+function notDef(x) {
+	return typeof x == "undefined";
+}
+function isDef(x, defaultParam) {
+	return !notDef(x);
+}
+
+function saveNewWord(word)
+{
+	words.push( word );
+	saveWords();
+}
+function saveWords()
+{
+	localStorage["langpad"] = JSON.stringify(words);
+}
+function loadWords()
+{
+	var localS = localStorage["langpad"];
+	if (!localS)
+		localS = sample_words;
+
+	words = JSON.parse( localS );
+	return words;
+}
+function splitW(w)
+{
+	var pos = w.indexOf('-');
+	var p = [];
+	p[0] = $.trim( w.substr(0, pos-1) );
+	p[1] = $.trim( w.substr(pos+1) );
+	return p;
+}
+
+Array.prototype.append = function(arr)
+{
+	this.push.apply(this, arr);
+	return this;
+}
+String.prototype.first = function(a) {
+	if (notDef(a)) a = 1;
+	if (a < 0) a += this.length;
+	return this.substr(0, a);
+}
+
+function show(query)
+{
+	if (query)
+		query = query.toLowerCase();
+
+	$('#words').html('');
+	//$('#words').children().fadeOut( function() { $(this).remove(); } );
+
+	var filteredStarts = [];
+	var filteredSk = [];
+	var filteredHas = [];
+
+	for (var i=0; i < words.length; i++)
+	{
+		var w = words[i];
+
+		if ( !query || w.startsWith(query) )
+			filteredStarts.push(w);
+		else
+		if ( w.indexOf("- "+query) != -1 )
+			filteredSk.push(w);
+		else
+		if ( w.indexOf(query) != -1 )
+			filteredHas.push(w);
+	}
+	
+	var filtered = [];
+	
+	if (filteredStarts.length) {
+		filtered.push("!starts with")
+		filtered.append(filteredStarts); }
+
+	if (filteredSk.length) {
+		filtered.push("!starts with (2nd)")
+		filtered.append(filteredSk); }
+
+	if (filteredHas.length) {
+		filtered.push("!contains")
+		filtered.append(filteredHas); }
+
+	for (var i=0; i < filtered.length; i++)
+	{
+		var w = filtered[i];
+		var ew = $('<div class="word">');
+		if (w.first() == '!')
+		{
+			ew.addClass('info');
+			ew.text( w.substr(1) );
+		}
+		else
+		{
+			var p = splitW( w );
+
+			$('<span class="main">').text( p[0] ).appendTo(ew);
+			$('<span>').text( p[1] ).appendTo(ew);
+		}
+
+		$('#words').append(ew);
+		//ew.hide().appendTo('#words').fadeIn();
+	}
+}
+
+var words = loadWords();
+
+
+String.prototype.startsWith = function(s) {
+	return (this.substr(0, s.length) == s);
+}
+
+function inp(x)
+{
+	if (typeof x == "undefined")
+		return $('#inp').val();
+	
+	$('#inp').val(x);
+}
+
+function checkValidFormat(w)
+{
+	if (w.indexOf('-') < 0) return false;
+	if (w.startsWith('!')) return false;
+
+	var p = splitW(w);
+	
+	if ( !p[0].length ) return false;
+	if ( !p[1].length ) return false;
+	
+	return p[0]+" - "+p[1];
+}
+
+$(function()
+{
+	$('#inp').keyup( function(e)
+	{
+		var what = inp();
+		show( what );
+	});
+
+	$('#inp').keypress( function(e)
+	{
+
+		if (e.keyCode == 13)
+			$('#add').click();
+	});
+	
+	$('#add').click( function(e)
+	{
+		var w = inp();
+		w = checkValidFormat(w);
+
+		if (!w)
+			alert('bad format, please use format:\n  word - translation');
+		else
+		{
+			if (confirm('add this?\n  '+w))
+			{
+				saveNewWord( w );
+				inp('');
+			}
+		}
+	});
+	
+	show();
+});
+
+
+</script>
+<body>
+
+<div id="left">
+	<div class="data info" onclick="toggleData()">data</div>
+	<div class="info">add: word - translation</div>
+	<input id="inp" type="text">
+	<div id="add">add</div>
+
+	<div id="words">
+		<div class="word"><span class="main">gule</span><span>penis</span></div>
+		<div class="word"><span class="main">gule</span><span>penis</span></div>
+		<div class="word"><span class="main">gule</span><span>penis</span></div>
+	</div>
+</div>
+<div id="data">
+	<div class="import info" onclick="importData()">import</div>
+	<textarea></textarea>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
