@@ -1,6 +1,6 @@
-## brm stuff
+# brm stuff
 
-### brm brm
+## brm brm
 this is some brm stuff
 
 - [nameMatch](https://github.com/idpsycho/brmstuff/tree/master/nameMatch) - autocomplete stuff
