@@ -1,5 +1,6 @@
 ## m2.sk sledovac
-<img style="float: right;" src="m2sk.jpg">
+ <img src="https://raw.github.com/idpsycho/brmstuff/master/m2sk/m2sk.jpg">
+<div style="float: right;">![example](m2sk.jpg)</div>
 ### features
 - mapa podla ulice pri kazdom inzerate
 - nove inzeraty zvyraznene zelenym pasikom
