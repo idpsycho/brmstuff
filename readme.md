@@ -8,3 +8,6 @@ this is some brm stuff :]
 - [kyberia extensions](https://github.com/idpsycho/brmstuff/tree/master/kyberia_extensions) - for kyberia.sk mods: desocializer, mail enhance, discussion depth flatting
 - [langpad](https://github.com/idpsycho/brmstuff/tree/master/langpad) - simple mobile app for noting down foreign words
 - [eval](https://github.com/idpsycho/brmstuff/tree/master/eval) - simple php console for quick experiments
+
+
+btw, here you can find readme.md style editor with [preview](http://tmpvar.com/markdown.html)
