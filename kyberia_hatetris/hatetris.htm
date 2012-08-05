@@ -7,21 +7,22 @@
 <style>
 	html {}
 	body { background: #000; font-family: tahoma; font-size: 11px; color: #6dae42; }
-	img { width: 50px; height: 50px; }
+	#grid img { width: 50px; height: 50px; }
 	#menu { float: left; width: 100px; text-align: center; font-weight: bold; padding-top: 20px; }
+
 	#grid { float: left; border: 1px solid #6dae42; min-width: 400px; min-height: 400px; }
 	.btn { border: 1px solid #6dae42; color: #fff; padding: 4px 8px; font-weight: normal; cursor: pointer; text-decoration: none; }
 	.row {background: #f00; height: 50px; }
 	#k { color: red; }
 	#kwallet { color: red; }
 
-	img.hejter {
+	#grid img.hejter {
 		opacity: 0.5;
 		-moz-opacity:0.5;
 		filter:alpha(opacity=50);
 	}
 
-	#msg { position: fixed; left: 150px; top: 80px; padding: 20px 60px; color: #6dae42; border: 1px solid #6dae42; text-align: center; font-weight: bold; background: #000; }
+	#msg { position: fixed; left: 140px; top: 40px; padding: 20px 60px; color: #6dae42; border: 1px solid #6dae42; text-align: center; font-weight: bold; background: #000; }
 	#msg h2 { color: red; }
 	#msg .score { color: red; }
 	#msg { display: none; }
@@ -95,6 +96,10 @@
 	<br>
 	<br>
 	<span class="btn" onclick="newFlame(true)">novy flejm</span>
+	<br>
+	<br>
+	<br>
+	<img class="keys" src="keys.png">
 </div>
 
 <div id="grid">
