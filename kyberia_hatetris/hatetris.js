@@ -160,6 +160,7 @@ function giveKbyId(elem, x, y)
 
 function giveFullRowK()
 {
+	return;
 	var gmax = gridS-1;
 	for (var y=gmax; y >= 0; y--)
 	{
@@ -200,6 +201,8 @@ function fallToEmptyRows()
 		}
 		if (num != 0)
 			continue;
+
+		addK(gridS);	// give score for cleared row
 
 		// if anything falls, let's see again (it might be empty row)
 		if (fallToRow(y))
@@ -293,7 +296,7 @@ function moveBlock(xx, yy, costK)
 	currBlock.y += yy;
 
 	applyGrid();
-	if (costK && xx) subK();	// y nestoji K
+	//if (costK && xx) subK();	// y nestoji K
 	return true;
 }
 
