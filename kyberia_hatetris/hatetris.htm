@@ -1,0 +1,137 @@
+<!doctype html>
+<html><head>
+<title>Kyberia HATETRIS 2.3</title>
+<meta charset="utf-8">
+<script src="jquery.js"></script>
+<script src="hatetris.js"></script>
+<style>
+	html {}
+	body { background: #000; font-family: tahoma; font-size: 11px; color: #6dae42; }
+	img { width: 50px; height: 50px; }
+	#menu { float: left; width: 100px; text-align: center; font-weight: bold; padding-top: 20px; }
+	#grid { float: left; border: 1px solid #6dae42; min-width: 400px; min-height: 400px; }
+	.btn { border: 1px solid #6dae42; color: #fff; padding: 4px 8px; font-weight: normal; cursor: pointer; text-decoration: none; }
+	.row {background: #f00; height: 50px; }
+	#k { color: red; }
+	#kwallet { color: red; }
+
+	img.hejter {
+		opacity: 0.5;
+		-moz-opacity:0.5;
+		filter:alpha(opacity=50);
+	}
+
+	#msg { position: fixed; left: 150px; top: 80px; padding: 20px 60px; color: #6dae42; border: 1px solid #6dae42; text-align: center; font-weight: bold; background: #000; }
+	#msg h2 { color: red; }
+	#msg .score { color: red; }
+	#msg { display: none; }
+	#msg.gameover { display: block; }
+
+	#iconCache {display: none;}
+</style>
+<script>
+	$(function()
+	{
+		initGrid();
+		setInterval(nextFrame, 800);
+	});
+
+	$(document).keydown(function(e)
+	{
+		var c = e.keyCode;
+		var kQ = 81;
+		var kW = 87;
+		var kA = 65;
+		var kS = 83;
+		var kD = 68;
+		var kSpc = 32;
+		var kUp = 38;
+		var kDn = 40;
+		var kLt = 37;
+		var kRt = 39;
+		var kRt = 39;
+
+		if (currBlock && !gameOver)
+		{
+			if (c==kQ) rotateBlock(true);
+			if (c==kW || c==kUp || c==kSpc) rotateBlock(false, 'k');
+			if (c==kA || c==kLt) moveBlock(-1, 0, 'k');
+			if (c==kD || c==kRt) moveBlock(1, 0, 'k');
+			if (c==kS || c==kDn) moveBlock(0, 1, 'k');
+		}
+
+		var kEnter = 13;
+		if (c==kEnter)
+			$('#msg .btn:visible').eq(0).click();
+	});
+
+</script>
+<body>
+<div id="iconCache">
+</div>
+<div id="menu">
+	<b>HATETRIS 2.3</b>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<table><tr>
+		<td>
+			K_wallet
+			<br>
+			<span id="kwallet">30</span>
+		</td>
+		<td>
+			K
+			<br>
+			<span id="k">30</span>
+		</td>
+	</tr></table>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<span class="btn" onclick="newFlame(true)">novy flejm</span>
+</div>
+
+<div id="grid">
+</div>
+
+<div id="msg">
+	<img src=http://kyberia.sk/images/nodes/1/0/101.gif>
+	<br>
+	<br>
+
+	<div class="error ending">
+		<h2>chcipla databaza</h2>
+		k_wallet<br>
+		<span class="score">0 K</span>
+		<br>
+		<br>
+		<br>
+		<span class="btn" onclick="newFlame(true)">refreshuj</span>
+		<a href="http://kyberia.sk/id/6771353" target="_blank" class="btn">chod na facebook</a>
+	</div>
+
+	<div class="kwallet ending">
+		<h2>nemas kacka</h2>
+		<br>
+		<br>
+		<br>
+		<br>
+		<span class="btn" onclick="newFlame()">dopln kacka z k-walletu</span>
+	</div>
+
+	<div class="alterego ending">
+		<h2>nemas kacka</h2>
+		<br>
+		<br>
+		na dnes si doflejmil
+		<br>
+		<br>
+		<span class="btn" onclick="newFlame()">prihlasit cez alterego</span>
+	</div>
+</div>
