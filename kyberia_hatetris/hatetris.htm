@@ -64,6 +64,12 @@
 		var kEnter = 13;
 		if (c==kEnter)
 			$('#msg .btn:visible').eq(0).click();
+
+		if (c==kUp || c==kDn || c==kLt || c==kRt || c==kSpc)
+		{
+			e.preventDefault();
+			return false;
+		}
 	});
 
 </script>
