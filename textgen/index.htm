@@ -1,0 +1,247 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<script src="jquery.js"></script>
+<!-- <script src="bootstrap/js/bootstrap.js"></script>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="style.css"> -->
+<style>
+	body { background: #8c4; text-align: center; }
+	#in { width: 16%; height: 70px; margin: 20px; }
+	#out { min-width: 90%; height: 500px; }
+	#in, #out { box-shadow: 1px 3px 10px #333; border-radius: 4px;
+				padding: 30px; background: url('bg.jpg'); }
+
+	.space { margin: 0 20px; display: inline-block; }
+	input, label { cursor: pointer; }
+</style>
+<script>
+
+/*
+!\"#$%&'()*+,-./0123456789
+:;<=>?@ABCDEFGHIJKLMNOPQRS
+TUVWXYZ[\]^_`abcdefghijklm
+nopqrstuvwxyz{|}~
+*/
+
+var letters =
+{
+	" ": "  \n  \n  \n  \n  \n  ",
+	"\t": "        \n        \n        \n        \n        \n        ",
+	"0": " ,-.  \n/  /\\ \n| / | \n\\/  / \n `-'  \n      ",
+	"1": " , \n'| \n | \n | \n ' \n   ",
+	"2": ",-.  \n   ) \n  /  \n /   \n'--' \n     ",
+	"3": ",--, \n  /  \n `.  \n   ) \n`-'  \n     ",
+	"4": "  ,. \n / | \n'--| \n   | \n   ' \n     ",
+	"5": ";--' \n|    \n`-.  \n   ) \n`-'  \n     ",
+	"6": " ,-.  \n/     \n|,-.  \n(   ) \n `-'  \n      ",
+	"7": ",---, \n   /  \n  /   \n /    \n'     \n      ",
+	"8": " ,-.  \n(   ) \n ;-:  \n(   ) \n `-'  \n      ",
+	"9": " ,-.  \n(   ) \n `-'| \n    / \n `-'  \n      ",
+	"!": ". \n| \n| \n  \no \n  ","\"":"p q \n    \n    \n    \n    \n    ",
+	"#": " | |  \n-+-+- \n | |  \n-+-+- \n | |  \n      ",
+	"$": " ,+.  \n( |   \n `+.  \n  | ) \n `+'  \n      ",
+	"%": "x_  , \n(_ /  \n  /   \n / _) \n'  xx \n      ",
+	"&": " ,-.   \n(   )  \n ;-: , \n(   X  \n `-' ` \n       ",
+	"'": "p \n  \n  \n  \n  \n  ",
+	"(": " , \n/  \n|  \n\\  \n ` \n   ",
+	")": ".  \n \\ \n | \n / \n'  \n   ",
+	"*": "  .   \n`.|,' \n / \\  \n      \n      \n      ",
+	"+": "    \n |  \n-+- \n |  \n    \n    ",
+	",": "  \n  \n  \n  \np \n  ",
+	"-": "    \n    \n--- \n    \n    \n    ",
+	".": "  \n  \n  \n  \no \n  ",
+	"/": "    / \n   /  \n  /   \n /    \n/     \n      ",
+	":": "  \no \n  \no \n  \n  ",
+	";": "  \no \n  \np \n  \n  ",
+	"<": "    \n ,' \n<   \n `. \n    \n    ",
+	"=": "    \n--- \n    \n--- \n    \n    ",
+	">": "    \n`.  \n  > \n,'  \n    \n    ",
+	"?": " ,-.  \n(   ) \n  ,'  \n  '   \n  o   \n      ",
+	"@": " ,-.  \n/ ,-\\ \n| | | \n\\ `-' \n `--' \n      ",
+	"A": " ,.  \n/  \\ \n|--| \n|  | \n'  ' \n     ",
+	"B": ",-.  \n|  ) \n|-<  \n|  ) \n`-'  \n     ",
+	"C": " ,-. \n/    \n|    \n\\    \n `-' \n     ",
+	"D": ",-.  \n|  \\ \n|  | \n|  / \n`-'  \n     ",
+	"E": ",--. \n|    \n|-   \n|    \n`--' \n     ",
+	"F": ",--. \n|    \n|-   \n|    \n'    \n     ",
+	"G": " ,-. \n/    \n| -. \n\\  | \n `-' \n     ",
+	"H": ".  . \n|  | \n|--| \n|  | \n'  ' \n     ",
+	"I": ", \n| \n| \n| \n' \n  ",
+	"J": " , \n | \n | \n | \n-' \n   ",
+	"K": ",  , \n| /  \n|<   \n| \\  \n'  ` \n     ",
+	"L": ",    \n|    \n|    \n|    \n`--' \n     ",
+	"M": ".   , \n|\\ /| \n| V | \n|   | \n'   ' \n      ",
+	"N": ".  . \n|\\ | \n| \\| \n|  | \n'  ' \n     ",
+	"O": " ,-.  \n/   \\ \n|   | \n\\   / \n `-'  \n      ",
+	"P": ";-.  \n|  ) \n|-'  \n|    \n'    \n     ",
+	"Q": " ,-.   \n/   \\  \n|   |  \n\\   X  \n `-' ` \n       ",
+	"R": ",-.  \n|  ) \n|-<  \n|  \\ \n'  ' \n     ",
+	"S": " ,-.  \n(     \n `-.  \n    ) \n `-'  \n      ",
+	"T": ",---. \n  |   \n  |   \n  |   \n  '   \n      ",
+	"U": ".  . \n|  | \n|  | \n|  | \n`--` \n     ",
+	"V": ".   , \n|  /  \n| /   \n|/    \n'     \n      ",
+	"W": ",   . \n| . | \n| ) ) \n|/|/  \n' '   \n      ",
+	"X": ".   , \n \\ /  \n  X   \n / \\  \n'   ` \n      ",
+	"Y": ".   , \n \\ /  \n  Y   \n  |   \n  '   \n      ",
+	"Z": ",---, \n   /  \n  /   \n /    \n'---' \n      ",
+	"[": ",- \n|  \n|  \n|  \n`- \n   ",
+	"]": "-. \n | \n | \n | \n-' \n   ",
+	"^": " A  \n/ \\ \n    \n    \n    \n    ",
+	"_": "    \n    \n    \n    \n    \n--- ",
+	"`": "q \n  \n  \n  \n  \n  ",
+	"a": "    \n    \n,-: \n| | \n`-` \n    ",
+	"b": ".   \n|   \n|-. \n| | \n`-' \n    ",
+	"c": "    \n    \n,-. \n|   \n`-' \n    ",
+	"d": "  . \n  | \n,-| \n| | \n`-' \n    ",
+	"e": "    \n    \n,-. \n|-' \n`-' \n    ",
+	"f": "    \n ,- \n |  \n |- \n |  \n-'  ",
+	"g": "    \n    \n,-: \n| | \n`-| \n`-' ",
+	"h": ".   \n|   \n|-. \n| | \n' ' \n    ",
+	"i": "  \no \n. \n| \n' \n  ",
+	"j": "   \n o \n , \n | \n | \n-' ",
+	"k": ",   \n|   \n| , \n|<  \n' ` \n    ",
+	"l": ". \n| \n| \n| \n' \n  ",
+	"m": "      \n      \n;-.-. \n| | | \n' ' ' \n      ",
+	"n": "    \n    \n;-. \n| | \n' ' \n    ",
+	"o": "    \n    \n,-. \n| | \n`-' \n    ",
+	"p": "    \n    \n;-. \n| | \n|-' \n'   ",
+	"q": "    \n    \n,-: \n| | \n`-| \n  ` ",
+	"r": "    \n    \n;-. \n|   \n'   \n    ",
+	"s": "    \n    \n,-. \n`-. \n`-' \n    ",
+	"t": ".   \n|   \n|-  \n|   \n`-' \n    ",
+	"u": "    \n    \n. . \n| | \n`-` \n    ",
+	"v": "    \n    \n. , \n|/  \n'   \n    ",
+	"w": "      \n      \n, , , \n|/|/  \n' '   \n      ",
+	"x": "    \n    \n. , \n X  \n' ` \n    ",
+	"y": "    \n    \n. . \n| | \n`-| \n`-' ",
+	"z": "    \n    \n,-, \n /  \n'-' \n    ",
+	"{": ",- \n\\  \n<  \n/  \n`- \n   ",
+	"|": "| \n| \n| \n| \n| \n  ",
+	"}": "-. \n / \n > \n \\ \n-' \n   ",
+	"~": "    \n'\\, \n    \n    \n    \n    "
+};
+$.each(letters, function(i, e)
+{
+	letters[i] = e.replace(/[^ \n]/g, '█');
+});
+
+String.prototype.n = function(times) {
+	return (new Array(times + 1)).join(this);
+}
+
+function generateLine(s, spacing)
+{
+	spacing = spacing || 2;
+
+	var x = lineComment() + '\t\t';
+	var lines = [x,x,x, x,x,x];
+
+	$.each(s, function(i, c)
+	{
+		var ln = letters[c]
+		if (!ln) return;
+
+		ln = ln.split('\n');
+
+		$.each(ln, function(i, e) {
+			ln[i] += ' '.n(spacing);
+		});
+
+		lines[0] += ln[0];
+		lines[1] += ln[1];
+		lines[2] += ln[2];
+		lines[3] += ln[3];
+		lines[4] += ln[4];
+		lines[5] += ln[5];
+	});
+	return lines.join('\n');
+}
+function generateText(s, spacing)
+{
+	var ws = s.split('\n');
+	var s = beginComment();
+
+	$.each(ws, function(i, e)
+	{
+		s += generateLine(e, spacing) + '\n';
+	});
+	s += endComment();
+	return s;
+}
+
+function useHtml() { return $('#html').is(':checked'); }
+function lineComment()
+{
+	if (useHtml())	return '';
+	return '//';
+}
+function beginComment()
+{
+	if (useHtml())	return '<!--\n';
+	return '\n';
+}
+function endComment()
+{
+	if (useHtml())	return '-->\n';
+	return '\n';
+}
+function process()
+{
+	var s = $('#in').val();
+	if ($('#caps').is(':checked'))
+		s = s.toUpperCase();
+	setText(s);
+}
+function setText(s)
+{
+	s = generateText(s);
+	$('#out').val(s);
+	return s;
+}
+
+$(function()
+{
+	$('#in').keyup(function()
+	{
+		process();
+	});
+	$('input').bind('change, click', function()
+	{
+		process();
+	});
+
+	var s = '';
+
+	s += "!\"#$%&'()*+,-./01234567\n";
+	s += "89:;<=>?@ABCDEFGHIJKLMNO\n";
+	s += "PQRSTUVWXYZ[\]^_`abcdefg\n";
+	s += "hijklmnopqrstuvwxyz{|}~";
+	$('#in').val(s);
+	process();
+});
+</script>
+<body>
+
+<br>
+
+<textarea id="out">
+</textarea>
+
+<div>
+	<div class="space">
+		<label for="c-line">// C-oneline</label>
+		<input type="radio" name="1" id="c-line" checked>
+	</div>
+	<div class="space">
+		<label for="html">&lt;!-- html --&gt;</label>
+		<input type="radio" name="1" id="html">
+	</div>
+	<div class="space">
+		<label for="caps">CAPS</label>
+		<input type="checkbox" id="caps" checked>
+	</div>
+</div>
+
+<textarea id="in">
+</textarea>

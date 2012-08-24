@@ -4,10 +4,14 @@ ked bude v3, tak do toho chcem spravit toto v3.1 extension<br>
 ktory by sa snad mohol zakomponovat priamo do kybce pre vsetkych<br>
 (note: chcel by som statistiky pouzivania)
 
-### Avatars
-	[ ] disable animations
-	[ ] disable all avatars
+### Users
+	[ ] disable avatar animation
+	[ ] hide avatars
+	[x] hide user ids & avatars (desocialize)
+	[x] ..except friends
 	[ ] show online/offline status near each avatar
+	static names for ids: [                      ]
+		- use format: 773:memfer,123:ubik,651684:some_hater
 
 ### Mail
 	[x] show last mailed users
@@ -27,6 +31,7 @@ ktory by sa snad mohol zakomponovat priamo do kybce pre vsetkych<br>
 		- allows you to comment under any node
 	[x] "5 minutes ago" date format
 	[x] hide mood messages
+	[ ] convert embedded videos to links (youtube)
 
 ### Configure Content
 	[x] allow tabs
@@ -43,10 +48,6 @@ ktory by sa snad mohol zakomponovat priamo do kybce pre vsetkych<br>
 	[x] K, FOOK, BOOK - happens in background
 		- fooked node will disappear when in kNew
 	[x] DELETE - recycles node to 123456
-
-### Desocializer
-	[x] hide user ids & avatars
-	[x] except friends
 
 ### FLAG: Not Safe For Work, Insults
 	[x] add FLAG buttons
