@@ -1,5 +1,7 @@
 # Remove Diacritics plugin for Sublime Text
 
+copy "remove_diacritics.py" into: C:\Users\_USERNAME_\Application Data\Sublime Text 2\Packages\User
+
 put this into "Default.sublime-commands":
 
     {
